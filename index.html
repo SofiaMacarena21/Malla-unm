@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Curricular Interactiva - UNM</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9ff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .materia {
+      padding: 12px;
+      margin: 8px;
+      background: #dbe8ff;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      border: 2px solid #7090c7;
+      transition: 0.3s;
+    }
+    .materia:hover {
+      background: #bad4ff;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    .info {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: auto;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Malla Curricular Interactiva</h1>
+<div class="grid" id="malla"></div>
+
+<div class="info" id="infoMateria">
+  <strong>Hacé clic en una materia para ver sus correlativas.</strong>
+</div>
+
+<script>
+  const materias = {
+    "Algoritmos y Estructuras de Datos": {
+      codigo: "250021",
+      correlativas: [],
+      siguientes: ["Bases de Datos", "Programación Orientada a Objetos", "Práctica Profesionalizante"]
+    },
+    "Matemática Discreta": {
+      codigo: "250020",
+      correlativas: [],
+      siguientes: ["Sistemas Operativos", "Estructura de las Organizaciones"]
+    },
+    "Álgebra": {
+      codigo: "250001",
+      correlativas: [],
+      siguientes: ["Matemática II", "Probabilidades y Estadística"]
+    },
+    "Matemática II": {
+      codigo: "250004",
+      correlativas: ["Álgebra"],
+      siguientes: []
+    },
+    "Sistemas y Organizaciones": {
+      codigo: "250002",
+      correlativas: [],
+      siguientes: ["Estructura de las Organizaciones", "Metodología de Sistemas I"]
+    },
+    "Lógica y Estructura de Datos": {
+      codigo: "250005",
+      correlativas: [],
+      siguientes: ["Algoritmos y Estructuras de Datos"]
+    },
+    "Arquitectura de Computadoras": {
+      codigo: "250006",
+      correlativas: [],
+      siguientes: ["Sistemas Operativos"]
+    },
+    "Sistemas Operativos": {
+      codigo: "250040",
+      correlativas: ["Matemática Discreta", "Arquitectura de Computadoras"],
+      siguientes: []
+    },
+    "Bases de Datos": {
+      codigo: "250037",
+      correlativas: ["Algoritmos y Estructuras de Datos"],
+      siguientes: ["Diseño de Bases de Datos"]
+    },
+    "Diseño de Bases de Datos": {
+      codigo: "250056",
+      correlativas: ["Bases de Datos"],
+      siguientes: []
+    },
+    "Programación Orientada a Objetos": {
+      codigo: "250038",
+      correlativas: ["Algoritmos y Estructuras de Datos"],
+      siguientes: ["Práctica Profesionalizante"]
+    },
+    "Probabilidades y Estadística": {
+      codigo: "250036",
+      correlativas: ["Álgebra"],
+      siguientes: []
+    },
+    "Análisis de Sistemas": {
+      codigo: "250039",
+      correlativas: ["Metodología de Sistemas II"],
+      siguientes: []
+    },
+    "Estructura de las Organizaciones": {
+      codigo: "250041",
+      correlativas: ["Sistemas y Organizaciones", "Matemática Discreta"],
+      siguientes: []
+    },
+    "Metodología de Sistemas I": {
+      codigo: "250042",
+      correlativas: ["Sistemas y Organizaciones"],
+      siguientes: ["Metodología de Sistemas II"]
+    },
+    "Metodología de Sistemas II": {
+      codigo: "250043",
+      correlativas: ["Metodología de Sistemas I"],
+      siguientes: ["Análisis de Sistemas"]
+    },
+    "Inglés I": {
+      codigo: "250044",
+      correlativas: [],
+      siguientes: ["Inglés II"]
+    },
+    "Inglés II": {
+      codigo: "250045",
+      correlativas: ["Inglés I"],
+      siguientes: []
+    },
+    "Proyecto Final": {
+      codigo: "250058",
+      correlativas: ["Análisis de Sistemas", "Diseño de Bases de Datos", "Programación Orientada a Objetos", "Inglés II"],
+      siguientes: []
+    },
+    "Práctica Profesionalizante": {
+      codigo: "250057",
+      correlativas: ["Algoritmos y Estructuras de Datos", "Programación Orientada a Objetos"],
+      siguientes: []
+    }
+  };
+
+  const contenedor = document.getElementById("malla");
+  const info = document.getElementById("infoMateria");
+
+  Object.keys(materias).forEach(nombre => {
+    const div = document.createElement("div");
+    div.className = "materia";
+    div.innerText = nombre;
+    div.onclick = () => mostrarInfo(nombre);
+    contenedor.appendChild(div);
+  });
+
+  function mostrarInfo(nombre) {
+    const mat = materias[nombre];
+    const cor = mat.correlativas.length ? mat.correlativas.join(", ") : "Ninguna";
+    const sig = mat.siguientes.length ? mat.siguientes.join(", ") : "Ninguna";
+    info.innerHTML = `
+      <h2>${nombre}</h2>
+      <p><strong>Código:</strong> ${mat.codigo}</p>
+      <p><strong>Correlativas requeridas:</strong> ${cor}</p>
+      <p><strong>Materias que dependen de esta:</strong> ${sig}</p>
+    `;
+  }
+</script>
+
+</body>
+  </html>
